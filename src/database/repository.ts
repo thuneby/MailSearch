@@ -139,8 +139,8 @@ export class MailSearchRepository {
     if (existing) return existing.id;
 
     const result = this.db
-      .prepare("INSERT INTO tags (name, created_at) VALUES (?, datetime('now'))")
-      .run(name);
+      .prepare('INSERT INTO tags (name, created_at) VALUES (?, ?)')
+      .run(name, new Date().toISOString());
     return result.lastInsertRowid as number;
   }
 

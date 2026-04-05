@@ -62,9 +62,9 @@ describe('MailSearchRepository', () => {
     it('ignores duplicate message_id on insert', () => {
       const email = sampleEmail({ messageId: 'unique-id-123@example.com' });
       const id1 = repo.insertEmail(email);
-      const id2 = repo.insertEmail(email); // duplicate
+      const _id2 = repo.insertEmail(email); // duplicate
       expect(id1).toBeGreaterThan(0);
-      expect(id2).toBe(0); // INSERT OR IGNORE returns 0 changes
+      expect(_id2).toBe(0); // INSERT OR IGNORE returns 0 changes
     });
 
     it('lists emails ordered by date descending', () => {
@@ -166,14 +166,12 @@ describe('MailSearchRepository', () => {
 
     it('filters emails by tag', () => {
       const id1 = repo.insertEmail(sampleEmail({ subject: 'Tagged' }));
-      const id2 = repo.insertEmail(sampleEmail({ subject: 'Not tagged' }));
+      repo.insertEmail(sampleEmail({ subject: 'Not tagged' }));
       repo.addTagToEmail(id1, 'review');
 
       const emails = repo.listEmails({ tag: 'review' });
       expect(emails).toHaveLength(1);
       expect(emails[0].id).toBe(id1);
-
-      void id2; // suppress unused variable warning
     });
   });
 
