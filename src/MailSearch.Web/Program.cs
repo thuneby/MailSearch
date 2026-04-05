@@ -1,7 +1,18 @@
+using MailSearch.Core.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<MailSearchRepository>(sp =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var dbPath = config["MailSearch:DbPath"];
+    return string.IsNullOrWhiteSpace(dbPath)
+        ? new MailSearchRepository()
+        : new MailSearchRepository(dbPath);
+});
 
 var app = builder.Build();
 

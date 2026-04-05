@@ -1,5 +1,5 @@
-using MailSearch.Database;
-using MailSearch.Models;
+using MailSearch.Core.Database;
+using MailSearch.Core.Models;
 
 namespace MailSearch.Tests;
 

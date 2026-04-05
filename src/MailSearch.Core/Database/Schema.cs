@@ -1,6 +1,6 @@
 using Microsoft.Data.Sqlite;
 
-namespace MailSearch.Database;
+namespace MailSearch.Core.Database;
 
 public static class Schema
 {

@@ -1,4 +1,4 @@
-namespace MailSearch.Importer;
+namespace MailSearch.Core.Importer;
 
 public class ImportResult
 {

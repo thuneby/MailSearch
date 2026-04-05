@@ -1,13 +1,14 @@
-using MailSearch.Database;
-using MailSearch.Models;
-using OrganizerNs = MailSearch.Organizer;
+using MailSearch.Core.Database;
+using MailSearch.Core.Models;
+using MailSearch.Core.Organizer;
+using OrganizerNs = MailSearch.Core.Organizer;
 
 namespace MailSearch.Tests;
 
 public class OrganizerTests : IDisposable
 {
     private readonly MailSearchRepository _repo;
-    private readonly OrganizerNs.Organizer _organizer;
+    private readonly Organizer _organizer;
     private readonly string _dbPath;
 
     public OrganizerTests()

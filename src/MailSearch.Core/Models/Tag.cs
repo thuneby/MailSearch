@@ -1,4 +1,6 @@
-namespace MailSearch.Models;
+using System;
+
+namespace MailSearch.Core.Models;
 
 public class Tag
 {

@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using MsgReader.Outlook;
-using MailSearch.Database;
-using MailSearch.Models;
+using MailSearch.Core.Models;
+using MailSearch.Importer;
+using MailSearch.Core.Database;
 
-namespace MailSearch.Importer;
+namespace MailSearch.Core.Importer;
 
 public static class MsgImporter
 {
@@ -83,7 +87,7 @@ public static class MsgImporter
         return result;
     }
 
-    private static List<Models.EmailAddress> ParseRecipients(
+    private static List<EmailAddress> ParseRecipients(
         List<Storage.Recipient>? recipients, RecipientType type)
     {
         if (recipients == null) return [];

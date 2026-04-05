@@ -1,0 +1,68 @@
+@model MailSearch.Web.Models.EmailListViewModel
+@{
+    ViewData["Title"] = Model.Tag != null ? $"Emails tagged \"{Model.Tag}\"" : "All Emails";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>@ViewData["Title"]</h2>
+    <form asp-controller="Email" asp-action="Search" method="get" class="d-flex gap-2">
+        <input type="search" name="q" class="form-control" placeholder="Search emails…" style="min-width:240px" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+@if (Model.Tags.Count > 0)
+{
+    <div class="mb-3">
+        <strong>Filter by tag:</strong>
+        <a asp-action="Index" class="badge @(Model.Tag == null ? "bg-primary" : "bg-secondary") text-decoration-none ms-1">All</a>
+        @foreach (var tag in Model.Tags)
+        {
+            <a asp-action="Index" asp-route-tag="@tag.Name"
+               class="badge @(Model.Tag == tag.Name ? "bg-primary" : "bg-secondary") text-decoration-none ms-1">@tag.Name</a>
+        }
+    </div>
+}
+
+@if (Model.Emails.Count == 0)
+{
+    <div class="alert alert-info">No emails found.</div>
+}
+else
+{
+    <p class="text-muted">Showing @Model.Emails.Count of @Model.TotalCount email(s)</p>
+    <div class="list-group mb-3">
+        @foreach (var email in Model.Emails)
+        {
+            <a asp-action="Details" asp-route-id="@email.Id" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <span class="fw-semibold text-truncate" style="max-width:60%">@email.Subject</span>
+                    <small class="text-muted">@(email.Date.HasValue ? email.Date.Value.ToLocalTime().ToShortDateString() : "")</small>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <small class="text-muted">
+                        @(email.From.Name != null ? $"{email.From.Name} <{email.From.Email}>" : email.From.Email)
+                    </small>
+                    @if (email.HasAttachments)
+                    {
+                        <small class="text-warning">📎 @email.AttachmentCount</small>
+                    }
+                </div>
+            </a>
+        }
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav>
+            <ul class="pagination">
+                @for (int p = 1; p <= Model.TotalPages; p++)
+                {
+                    <li class="page-item @(p == Model.Page ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@p" asp-route-tag="@Model.Tag">@p</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}

@@ -1,6 +1,6 @@
-using MailSearch.Database;
-using MailSearch.Models;
-using MailSearch.Search;
+using MailSearch.Core.Database;
+using MailSearch.Core.Models;
+using MailSearch.Core.Search;
 
 namespace MailSearch.Tests;
 

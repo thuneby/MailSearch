@@ -1,7 +1,8 @@
-using MailSearch.Database;
-using MailSearch.Models;
+using System.Collections.Generic;
+using MailSearch.Core.Database;
+using MailSearch.Core.Models;
 
-namespace MailSearch.Organizer;
+namespace MailSearch.Core.Organizer;
 
 /// <summary>
 /// Provides tagging and listing operations for emails.
