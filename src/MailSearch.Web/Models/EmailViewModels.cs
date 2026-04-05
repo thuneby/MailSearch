@@ -1,4 +1,4 @@
-using MailSearch.Models;
+using MailSearch.Core.Models;
 
 namespace MailSearch.Web.Models;
 

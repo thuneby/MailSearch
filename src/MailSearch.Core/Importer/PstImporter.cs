@@ -1,7 +1,12 @@
-using MailSearch.Database;
-using MailSearch.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using MailSearch.Core.Database;
+using MailSearch.Importer;
 
-namespace MailSearch.Importer;
+
+namespace MailSearch.Core.Importer;
 
 /// <summary>
 /// Imports PST/OST files into the MailSearch database.

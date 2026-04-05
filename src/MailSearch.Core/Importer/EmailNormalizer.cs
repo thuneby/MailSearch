@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using MailSearch.Models;
+using MailSearch.Core.Models;
 
 namespace MailSearch.Importer;
 

@@ -1,9 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text.Json;
 using Microsoft.Data.Sqlite;
-using MailSearch.Models;
+using MailSearch.Core.Models;
 
-namespace MailSearch.Database;
+namespace MailSearch.Core.Database;
 
 public class MailSearchRepository : IDisposable
 {

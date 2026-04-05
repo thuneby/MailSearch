@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using MailSearch.Database;
-using MailSearch.Search;
 using MailSearch.Web.Models;
-using OrganizerService = MailSearch.Organizer.Organizer;
+using MailSearch.Core.Database;
+using MailSearch.Core.Organizer;
 
 namespace MailSearch.Web.Controllers;
 
@@ -71,7 +70,7 @@ public class EmailController(MailSearchRepository repo) : Controller
     {
         if (!string.IsNullOrWhiteSpace(tagName))
         {
-            var organizer = new OrganizerService(repo);
+            var organizer = new Organizer(repo);
             organizer.Tag(id, tagName.Trim());
         }
         return RedirectToAction(nameof(Details), new { id });
@@ -82,7 +81,7 @@ public class EmailController(MailSearchRepository repo) : Controller
     [ValidateAntiForgeryToken]
     public IActionResult RemoveTag(int id, string tagName)
     {
-        var organizer = new OrganizerService(repo);
+        var organizer = new Organizer(repo);
         organizer.Untag(id, tagName);
         return RedirectToAction(nameof(Details), new { id });
     }

@@ -1,4 +1,4 @@
-using MailSearch.Database;
+using MailSearch.Core.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 

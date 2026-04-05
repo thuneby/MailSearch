@@ -1,9 +1,9 @@
 using System.CommandLine;
-using MailSearch.Database;
-using MailSearch.Importer;
-using MailSearch.Models;
-using MailSearch.Organizer;
-using MailSearch.Search;
+using MailSearch.Core.Database;
+using MailSearch.Core.Importer;
+using MailSearch.Core.Models;
+using MailSearch.Core.Search;
+using MailSearch.Core.Organizer;
 
 var defaultDbPath = MailSearchRepository.DefaultDbPath;
 var defaultAttachmentDir = Path.Combine(
@@ -116,9 +116,10 @@ searchCommand.SetAction((ParseResult pr) =>
             Console.ResetColor();
             return 0;
         }
+        var count = results?.Count ?? 0;
 
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine($"Found {results.Count} result(s) for \"{query}\":\n");
+        Console.WriteLine($"Found {count} result(s) for \"{query}\":\n");
         Console.ResetColor();
 
         foreach (var email in results)
@@ -127,7 +128,7 @@ searchCommand.SetAction((ParseResult pr) =>
             if (!string.IsNullOrEmpty(email.Snippet))
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"  …{email.Snippet}…");
+                Console.WriteLine($"  …{email.Snippet?? ""}…");
                 Console.ResetColor();
             }
             Console.WriteLine();

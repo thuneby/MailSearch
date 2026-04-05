@@ -3,7 +3,7 @@
     var email = Model.Email;
     ViewData["Title"] = email.Subject;
 
-    string FormatAddress(MailSearch.Models.EmailAddress addr) =>
+    string FormatAddress(MailSearch.Core.Models.EmailAddress addr) =>
         addr.Name != null ? $"{addr.Name} <{addr.Email}>" : addr.Email;
 
     string FormatSize(long bytes) =>

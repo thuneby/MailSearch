@@ -1,4 +1,4 @@
-namespace MailSearch.Models;
+namespace MailSearch.Core.Models;
 
 public class EmailSearchResult : Email
 {
