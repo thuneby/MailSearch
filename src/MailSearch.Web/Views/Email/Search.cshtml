@@ -1,0 +1,66 @@
+@model MailSearch.Web.Models.EmailSearchViewModel
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.Query) ? "Search" : $"Search: {Model.Query}";
+}
+
+<h2>Search Emails</h2>
+
+<form asp-action="Search" method="get" class="d-flex gap-2 mb-4">
+    <input type="search" name="q" value="@Model.Query" class="form-control" placeholder="Enter search query…" style="max-width:480px" autofocus />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<p class="text-muted small">
+    Supports FTS5 syntax: simple terms, <code>"phrases"</code>, <code>word AND other</code>, <code>prefix*</code>, <code>subject:word</code>
+</p>
+
+@if (!string.IsNullOrEmpty(Model.Query))
+{
+    @if (Model.Results.Count == 0)
+    {
+        <div class="alert alert-info">No results found for <strong>@Model.Query</strong>.</div>
+    }
+    else
+    {
+        <p class="text-muted">Found @Model.Results.Count result(s) for <strong>@Model.Query</strong></p>
+        <div class="list-group mb-3">
+            @foreach (var email in Model.Results)
+            {
+                <a asp-action="Details" asp-route-id="@email.Id" class="list-group-item list-group-item-action">
+                    <div class="d-flex justify-content-between">
+                        <span class="fw-semibold text-truncate" style="max-width:60%">@email.Subject</span>
+                        <small class="text-muted">@(email.Date.HasValue ? email.Date.Value.ToLocalTime().ToShortDateString() : "")</small>
+                    </div>
+                    <small class="text-muted d-block">
+                        @(email.From.Name != null ? $"{email.From.Name} <{email.From.Email}>" : email.From.Email)
+                    </small>
+                    @if (!string.IsNullOrEmpty(email.Snippet))
+                    {
+                        <small class="text-secondary">…@email.Snippet…</small>
+                    }
+                </a>
+            }
+        </div>
+
+        @if (Model.HasNextPage || Model.Page > 1)
+        {
+            <nav>
+                <ul class="pagination">
+                    @if (Model.Page > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Search" asp-route-q="@Model.Query" asp-route-page="@(Model.Page - 1)">Previous</a>
+                        </li>
+                    }
+                    <li class="page-item active"><span class="page-link">@Model.Page</span></li>
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Search" asp-route-q="@Model.Query" asp-route-page="@(Model.Page + 1)">Next</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+}

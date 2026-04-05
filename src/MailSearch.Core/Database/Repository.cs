@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using Microsoft.Data.Sqlite;
 using MailSearch.Models;
@@ -306,13 +307,13 @@ public class MailSearchRepository : IDisposable
             To = JsonSerializer.Deserialize<List<EmailAddress>>(reader["to_json"] as string ?? "[]", options) ?? [],
             Cc = JsonSerializer.Deserialize<List<EmailAddress>>(reader["cc_json"] as string ?? "[]", options) ?? [],
             Bcc = JsonSerializer.Deserialize<List<EmailAddress>>(reader["bcc_json"] as string ?? "[]", options) ?? [],
-            Date = reader["date"] is string ds && ds.Length > 0 ? DateTime.Parse(ds).ToUniversalTime() : null,
+            Date = reader["date"] is string ds && ds.Length > 0 ? DateTime.Parse(ds, CultureInfo.InvariantCulture).ToUniversalTime() : null,
             BodyText = reader["body_text"] as string,
             BodyHtml = reader["body_html"] as string,
             HasAttachments = Convert.ToInt32(reader["has_attachments"]) == 1,
             AttachmentCount = Convert.ToInt32(reader["attachment_count"]),
             SourceFile = reader["source_file"] as string ?? string.Empty,
-            ImportedAt = DateTime.Parse(reader["imported_at"] as string ?? DateTime.UtcNow.ToString("o")).ToUniversalTime(),
+            ImportedAt = DateTime.Parse(reader["imported_at"] as string ?? DateTime.UtcNow.ToString("o"), CultureInfo.InvariantCulture).ToUniversalTime(),
             FolderId = reader["folder_id"] is long fi ? (int)fi : null,
             FolderPath = reader["folder_path"] as string,
         };
@@ -337,7 +338,7 @@ public class MailSearchRepository : IDisposable
         {
             Id = Convert.ToInt32(reader["id"]),
             Name = reader["name"] as string ?? string.Empty,
-            CreatedAt = DateTime.Parse(reader["created_at"] as string ?? DateTime.UtcNow.ToString("o")).ToUniversalTime(),
+            CreatedAt = DateTime.Parse(reader["created_at"] as string ?? DateTime.UtcNow.ToString("o"), CultureInfo.InvariantCulture).ToUniversalTime(),
         };
     }
 
